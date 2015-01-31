@@ -1,14 +1,20 @@
 package fr.istic.tpjpa.domain;
 
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Person {
@@ -50,6 +56,12 @@ public class Person {
 	public long getIdPers() {
 		return idPers;
 	}
+	
+	//OneToMany : liste de residence
+	private List<Home> residences;
+	
+	
+	
 
 
 
@@ -127,5 +139,16 @@ public class Person {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
+
+	@OneToMany(mappedBy = "proprietaires", cascade= CascadeType.PERSIST)
+	public List<Home> getResidences() {
+		return residences;
+	}
+
+	public void setResidences(List<Home> residences) {
+		this.residences = residences;
+	}
+
+
 
 }
