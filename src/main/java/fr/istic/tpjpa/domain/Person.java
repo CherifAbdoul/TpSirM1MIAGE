@@ -6,21 +6,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Person {
 	
-	private int idPers;
+	private long idPers;
 	private String nom;
 	private String prenom;
 	private String mail;
-	private int age;
+	private String genre;
+	
+	@Temporal(TemporalType.DATE)
 	private Calendar dateNais;
+	
+	@Transient
 	private String profil;
 	
 	
-	
+	//constructeur par defaut
 	public Person() {
+		
+	}
+	
+	//constructeur de la classe avec parametres
+	public Person(String nom, String prenom, String mail, String genre ,Calendar dateNais, String profil)
+	{
+		this.nom = nom;
+		this.prenom = prenom;
+		this.mail = mail;
+		this.genre = genre;
+		this.dateNais = dateNais;
+		this.profil = profil;
 		
 	}
 	
@@ -28,13 +47,13 @@ public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public int getIdPers() {
+	public long getIdPers() {
 		return idPers;
 	}
 
 
 
-	public void setIdPers(int idPers) {
+	public void setIdPers(long idPers) {
 		this.idPers = idPers;
 	}
 
@@ -63,19 +82,6 @@ public class Person {
 	}
 
 
-
-	public int getAge() {
-		return age;
-	}
-
-
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-
-
 	public Calendar getDateNais() {
 		return dateNais;
 	}
@@ -96,6 +102,30 @@ public class Person {
 
 	public void setProfil(String profil) {
 		this.profil = profil;
+	}
+
+
+
+	public String getMail() {
+		return mail;
+	}
+
+
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+
+
+	public String getGenre() {
+		return genre;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 }
