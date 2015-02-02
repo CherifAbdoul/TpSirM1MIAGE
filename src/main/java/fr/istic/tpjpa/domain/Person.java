@@ -1,7 +1,7 @@
 package fr.istic.tpjpa.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,12 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Person {
@@ -31,6 +32,22 @@ public class Person {
 	@Transient
 	private String profil;
 	
+	//OneToMany : liste de residence
+	private List<Home> residences = new ArrayList<Home>();
+	
+	/**
+	 *  
+	@ManyToMany	
+	@JoinTable(name = "relationships", 
+       joinColumns = @JoinColumn(name = "user_id"), 
+       inverseJoinColumns = @JoinColumn(name = "friend_id"))
+   protected List friends = null;
+   @ManyToMany(mappedBy = "friends")
+   protected List befriended = null;
+	 * 
+	 */
+	
+	private List<Person> relationships = new ArrayList<Person>();
 	
 	//constructeur par defaut
 	public Person() {
@@ -57,14 +74,8 @@ public class Person {
 		return idPers;
 	}
 	
-	//OneToMany : liste de residence
-	private List<Home> residences;
-	
-	
-	
 
-
-
+	
 	public void setIdPers(long idPers) {
 		this.idPers = idPers;
 	}
@@ -147,6 +158,33 @@ public class Person {
 
 	public void setResidences(List<Home> residences) {
 		this.residences = residences;
+	}
+
+	
+	@ManyToMany//(mappedBy = "friends")
+	@JoinTable(name="friends")
+	public List<Person> getRelationships() {
+		return relationships;
+	}
+
+	public void setRelationships(List<Person> relationships) {
+		this.relationships = relationships;
+	}
+	
+	 public void addHome(Home home) {
+	        this.residences.add(home);
+	        if (home.getProprietaires() != this) {
+	        	home.setProprietaires(this);
+	        }
+	  }
+	
+	//ajout de devices
+	public void addPerson(Person person){
+		this.relationships.add(person);
+//	        if(person.get != this) {
+//	        	device.setHomeDevice(this);
+//	        
+//	    }
 	}
 
 
